@@ -7,7 +7,11 @@ services:
       volumes:
         - ./:/app
         - ./docker/php/php.ini:/usr/local/etc/php/php.ini
-
+    face_recognition_app:
+      build:
+        context: /face_recognition_app
+        dockerfile: ../docker/face_recognition_app/Dockerfile
+      container_name: face_recognition_app
     nginx:
           image: nginx
           container_name: nginx
