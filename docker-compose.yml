@@ -12,17 +12,12 @@ services:
           image: nginx
           container_name: nginx
           ports:
-            - $NGINX_PUBLIC_PORT:80
+            - $NGINX_PUBLIC_PORT:8080
           volumes:
             - ./:/app
             - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
           depends_on:
             - mask_detector
-
-#    gstreamer:
-#      build: docker/gstreamer
-#      container_name: gstreamer
-
     rabbitmq:
       image: "rabbitmq:3-management"
       hostname: "rabbit1"
@@ -38,3 +33,9 @@ services:
       ports:
         - $RABBITMQ_PUBLIC_PORT:5672
         - $RABBITMQ_UI_PUBLIC_PORT:15672
+    redis:
+      image: redis:6.2-alpine
+      restart: "always"
+      ports:
+        - '6379:6379'
+      command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
