@@ -1,2 +1,3 @@
-# mask_detector
-Mask detector soft for learning
+#### Как развернуть проект?
+- docker-compose up --build
+- Сетка настроится автоматически
