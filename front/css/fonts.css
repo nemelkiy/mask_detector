@@ -1,0 +1,8 @@
+@font-face {
+    font-family: Tellural; /* Гарнитура шрифта */
+    src: url(../front/fonts/Tellural.ttf) format('ttf'); /* Путь к файлу со шрифтом */
+    font-display: swap;
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
