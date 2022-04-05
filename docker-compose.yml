@@ -37,6 +37,8 @@ services:
       ports:
         - $RABBITMQ_PUBLIC_PORT:5672
         - $RABBITMQ_UI_PUBLIC_PORT:15672
+      depends_on:
+        - face_recognition_app
     redis:
       image: redis:6.2-alpine
       restart: "always"

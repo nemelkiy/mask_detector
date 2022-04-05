@@ -4,7 +4,8 @@ RUN apt-get update \
             && apt-get upgrade -y \
             && apt-get autoremove \
             && apt-get autoclean \
-            && mkdir app
+            && mkdir app \
+            && apt-get install -y python3-opencv
 
 COPY requirements.txt /app/
 WORKDIR /app
