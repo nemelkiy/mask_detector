@@ -8,6 +8,7 @@ from PIL import Image
 from retinaface.pre_trained_models import get_model as get_detector
 import pika
 import logging
+import json
 
 
 class RecognizerCore:
@@ -58,13 +59,17 @@ class Recognizer(RecognizerCore):
     def __init__(self,
                  path_to_model: str,
                  params=pika.URLParameters('amqp://rabbitmq:rabbitmq@rabbit1:5672/%2F'),
-                 queue="default_queue"):
+                 queue="default_queue",
+                 queue_pub="default_queue_pub"):
         super().__init__(path_to_model)
         logging.basicConfig(level=logging.INFO)
         self._connection = pika.BlockingConnection(params)
         self._channel = self._connection.channel()
+        self._channel_pub = self._connection.channel()
         self.queue = queue
+        self.queue_pub = queue_pub
         self._channel.queue_declare(queue=self.queue)
+        self._channel_pub.queue_declare(queue=self.queue_pub)
         logging.info('App started waiting for messages...')
 
     def receive_msg(self):
@@ -75,9 +80,33 @@ class Recognizer(RecognizerCore):
         )
         self._channel.start_consuming()
 
+    def _process_msg(self, data):
+        data_json = json.loads(data)
+        img = self._base64_to_img(data_json["data"]["img_base64"])
+        img_base64 = self._img_to_base64(self.define_mask(img))
+        if img_base64:
+            logging.info("Data Processed!")
+        return img_base64
+
     def _publish_msg(self, ch, method, properties, body):
         data = body.decode("utf-8")
         logging.info("Data Received : {}".format(data))
+        img_base64 = self._process_msg(data)
+        msg = self._post_process_data(img_base64)
+        self._channel.basic_publish(exchange='',
+                                    routing_key="default_queue_pub",
+                                    body=str(msg))
+
+        logging.info("Data has been sent!")
+
+    @staticmethod
+    def _post_process_data(img_base64: str):
+        msg = {
+            "data": {
+                "img_base64": img_base64
+            }
+        }
+        return msg
 
     @staticmethod
     def _img_to_base64(img):
