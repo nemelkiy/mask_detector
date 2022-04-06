@@ -12,6 +12,7 @@ services:
         context: /face_recognition_app
         dockerfile: ../docker/face_recognition_app/Dockerfile
       container_name: face_recognition_app
+      restart: "always"
     nginx:
           image: nginx
           container_name: nginx
@@ -27,8 +28,8 @@ services:
       hostname: "rabbit1"
       environment:
         RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
-        RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
-        RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+        RABBITMQ_DEFAULT_USER: "rabbitmq"
+        RABBITMQ_DEFAULT_PASS: "rabbitmq"
         RABBITMQ_DEFAULT_VHOST: "/"
       labels:
         NAME: "rabbitmq1"

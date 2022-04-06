@@ -7,6 +7,7 @@ import numpy as np
 from PIL import Image
 from retinaface.pre_trained_models import get_model as get_detector
 import pika
+import logging
 
 
 class RecognizerCore:
@@ -54,12 +55,17 @@ class RecognizerCore:
 
 class Recognizer(RecognizerCore):
 
-    def __init__(self, path_to_model: str, queue="default_queue"):
+    def __init__(self,
+                 path_to_model: str,
+                 params=pika.URLParameters('amqp://rabbitmq:rabbitmq@rabbit1:5672/%2F'),
+                 queue="default_queue"):
         super().__init__(path_to_model)
-        self._connection = pika.BlockingConnection(pika.ConnectionParameters(host="rabbit1"))
+        logging.basicConfig(level=logging.INFO)
+        self._connection = pika.BlockingConnection(params)
         self._channel = self._connection.channel()
         self.queue = queue
         self._channel.queue_declare(queue=self.queue)
+        logging.info('App started waiting for messages...')
 
     def receive_msg(self):
         self._channel.basic_consume(
@@ -69,8 +75,9 @@ class Recognizer(RecognizerCore):
         )
         self._channel.start_consuming()
 
-    def _publish_msg(self, method, properties, body):
-        print(body)
+    def _publish_msg(self, ch, method, properties, body):
+        data = body.decode("utf-8")
+        logging.info("Data Received : {}".format(data))
 
     @staticmethod
     def _img_to_base64(img):
