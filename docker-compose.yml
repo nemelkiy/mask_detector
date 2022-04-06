@@ -12,6 +12,7 @@ services:
         context: ./face_recognition_app
         dockerfile: ../docker/face_recognition_app/Dockerfile
       container_name: face_recognition_app
+      restart: "always"
     nginx:
           image: nginx
           container_name: nginx
