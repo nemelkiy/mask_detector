@@ -11,7 +11,7 @@ COPY requirements.txt /app/
 WORKDIR /app
 RUN pip install --upgrade pip \
             && pip install --no-cache-dir -r requirements.txt
-
+COPY /model/retinaface_resnet50_2020-07-20-f168fae3c.zip /root/.cache/torch/hub/checkpoints/
 COPY . /app/
 
 CMD ["python", "app.py"]
