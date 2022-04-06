@@ -9,10 +9,9 @@ services:
         - ./docker/php/php.ini:/usr/local/etc/php/php.ini
     face_recognition_app:
       build:
-        context: /face_recognition_app
+        context: ./face_recognition_app
         dockerfile: ../docker/face_recognition_app/Dockerfile
       container_name: face_recognition_app
-      restart: "always"
     nginx:
           image: nginx
           container_name: nginx
@@ -24,17 +23,17 @@ services:
           depends_on:
             - mask_detector
     rabbitmq:
-      image: "rabbitmq:3-management"
-      hostname: "rabbit1"
+      build:
+        context: ./rabbitmq
+        dockerfile: ../docker/rabbitmq/Dockerfile
+      hostname: ${HOST_RABBITMQ}
       environment:
-        RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
-        RABBITMQ_DEFAULT_USER: "rabbitmq"
-        RABBITMQ_DEFAULT_PASS: "rabbitmq"
-        RABBITMQ_DEFAULT_VHOST: "/"
+        RABBITMQ_ERLANG_COOKIE: ${RABBITMQ_ERLANG_COOKIE}
+        RABBITMQ_DEFAULT_USER: ${RABBITMQ_ADMIN_NAME}
+        RABBITMQ_DEFAULT_PASS: ${RABBITMQ_ADMIN_PASS}
+        RABBITMQ_DEFAULT_VHOST: ${VHOST_RABBITMQ}
       labels:
         NAME: "rabbitmq1"
-      volumes:
-        - "./docker/rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins"
       ports:
         - $RABBITMQ_PUBLIC_PORT:5672
         - $RABBITMQ_UI_PUBLIC_PORT:15672
