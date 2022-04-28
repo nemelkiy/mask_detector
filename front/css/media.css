@@ -1,0 +1,28 @@
+@media only screen and (max-width : 1920px) {
+    .carousel-slide{
+        width: 360px;
+        min-height: 250px;
+    }
+}
+@media only screen and (max-width : 1200px) {
+    
+}
+@media only screen and (max-width : 840px) {
+    
+}
+@media only screen and (max-width : 768px) {
+   
+}
+ 
+@media only screen and (max-width : 450px) {
+  
+}
+@media only screen and (max-width : 395px) {
+   
+}
+@media only screen and (max-width : 375px) {
+
+}
+@media only screen and (max-width : 320px) {
+   
+}

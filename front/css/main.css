@@ -67,9 +67,12 @@ nav>a:hover{
 .index-container{
     min-height: 80vh;
     position: relative;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
 }
 .carousel-slide{
-    width: 435px;
+    width: 490px;
     min-height: 380px;
     border-radius: 25px;
     box-shadow: 0 0 15px 3px rgba(1,1,1,0.1);
@@ -77,4 +80,27 @@ nav>a:hover{
     background-position: center;
     margin-top: 10px;
     margin-bottom: 10px;
+}
+h1{
+    text-align: center;
+}
+.index-container__text{
+    font-size: 1.5em;
+    background-color: rgba(1,1,1,0.3);
+    border-radius: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    min-height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    box-shadow: 0 0 15px 3px rgba(1,1,1,0.1);
+}
+.index-container__text a{
+    text-decoration: none;
+    color: #fff;
+    transition: color .3s ease-in;
+}
+.index-container__text a:hover{
+    color: #F99514;
 }

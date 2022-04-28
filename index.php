@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="front/css/main.css">
     <link rel="stylesheet" href="front/css/owl.carousel.min.css">
     <link rel="stylesheet" href="front/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="front/css/media.css">
 
     <script src="front/js/jquery-3.6.0.min.js"></script>
     <script src="front/js/owl.carousel.min.js"></script>
@@ -16,23 +17,15 @@
 
 </head>
 <body>
-    <header>
-    <div class="header-line">
-        <div class="container">
-        <div class="logo">
-            
-        </div>
-        <nav>
-            <a href="">Главная</a>
-            <a href="">Загрузить фаил</a>
-            <a href="">Цель приложения</a>
-            <a href="">Последние результаты</a>
-        </nav>
-        </div>
-    </div>
-    </header>
+    <?include('front/core/header.php')?>
+    <h1>Приложение для поиска маски на лице</h1>
     <div class="container index-container">
-        <h1>Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты. Вершину единственное свой пор он домах? Залетают, диких всемогущая собрал, предупредила несколько взгляд безорфографичный все алфавит ведущими текстами, напоивший сих!</h1>
+        <div class="index-container__text">
+            <p>Добро пожаловать в приложения по поиску маски на лице.</p>
+            <p>Для того, чтобы начать работу. Пожалуйста, <a href="">загрузите фаил</a></p>
+            <p>Для получения дополнительной информации перейдите в раздел <a href="goal.php">цели приложения</a></p>
+            <p>Чтобы посмотреть последние результаты, пожалуйста, перейдите в раздел <a href="">последних результатов</a></p>
+        </div>
     <div class="owl-wrapper">
     <div class="owl-carousel">
         <div class="carousel-slide" style="background-image: url(front/images/6.png)"></div>
