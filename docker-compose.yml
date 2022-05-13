@@ -1,28 +1,6 @@
 version: "3"
 
 services:
-    mask_detector:
-      build: docker/php
-      container_name: mask_detector
-      volumes:
-        - ./:/app
-        - ./docker/php/php.ini:/usr/local/etc/php/php.ini
-    face_recognition_app:
-      build:
-        context: ./face_recognition_app
-        dockerfile: ../docker/face_recognition_app/Dockerfile
-      container_name: face_recognition_app
-      restart: "always"
-    nginx:
-          image: nginx
-          container_name: nginx
-          ports:
-            - $NGINX_PUBLIC_PORT:8080
-          volumes:
-            - ./:/app
-            - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
-          depends_on:
-            - mask_detector
     rabbitmq:
       build:
         context: ./rabbitmq
@@ -38,8 +16,42 @@ services:
       ports:
         - $RABBITMQ_PUBLIC_PORT:5672
         - $RABBITMQ_UI_PUBLIC_PORT:15672
+    mask_detector:
+      build: docker/php
+      container_name: mask_detector
+      volumes:
+        - ./:/app
+        - ./docker/php/php.ini:/usr/local/etc/php/php.ini
       depends_on:
-        - face_recognition_app
+        - rabbitmq
+    face_recognition_app:
+      build:
+        context: ./face_recognition_app
+        dockerfile: ../docker/face_recognition_app/Dockerfile
+      container_name: face_recognition_app
+      restart: "always"
+      depends_on:
+        - rabbitmq # старт после старта контейнера rabbitmq
+      command: sh -c './wait-for.sh rabbitmq-1:5672 -- python app.py' # ожидаем
+    movie_handler_app:
+      build:
+        context: ./movie_handler_app
+        dockerfile: ../docker/movie_handler_app/Dockerfile
+      container_name: movie_handler_app
+      restart: "always"
+      depends_on:
+        - rabbitmq # старт после старта контейнера rabbitmq
+      command: sh -c './wait-for.sh rabbitmq-1:5672 -- python Controller.py' # ожидаем
+    nginx:
+          image: nginx
+          container_name: nginx
+          ports:
+            - $NGINX_PUBLIC_PORT:8080
+          volumes:
+            - ./:/app
+            - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+          depends_on:
+            - mask_detector
     redis:
       image: redis:6.2-alpine
       restart: "always"
