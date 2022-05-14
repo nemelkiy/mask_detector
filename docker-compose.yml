@@ -31,8 +31,7 @@ services:
       container_name: face_recognition_app
       restart: "always"
       depends_on:
-        - rabbitmq # старт после старта контейнера rabbitmq
-      command: sh -c './wait-for.sh rabbitmq-1:5672 -- python app.py' # ожидаем
+        - movie_handler_app
     movie_handler_app:
       build:
         context: ./movie_handler_app
