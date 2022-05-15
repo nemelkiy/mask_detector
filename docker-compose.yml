@@ -28,8 +28,10 @@ services:
       build:
         context: ./face_recognition_app
         dockerfile: ../docker/face_recognition_app/Dockerfile
-      container_name: face_recognition_app
       restart: "always"
+      deploy:
+        mode: replicated
+        replicas: 1
       depends_on:
         - rabbitmq # старт после старта контейнера rabbitmq
       command: sh -c './wait-for.sh rabbitmq-1:5672 -- python app.py' # ожидаем

@@ -27,9 +27,11 @@ class RecognizerCore:
 
     def define_mask(self, img):
         faces = self._recognize_faces(img)
+        masks = []
         for annotation in faces:
+            if not annotation["bbox"]:
+                continue
             x_min, y_min, x_max, y_max = annotation["bbox"]
-
             x_min = int(np.clip(x_min, 0, x_max))
             y_min = int(np.clip(y_min, 0, y_max))
 
@@ -39,12 +41,15 @@ class RecognizerCore:
 
             mask_result = self.model.predict(crop)
             has_mask = mask_result.argmax()
+            masks.append(has_mask)
 
             cv2.putText(img, self._mask_label[has_mask], (x_min, y_min - 10), cv2.FONT_HERSHEY_DUPLEX, 0.5,
                         self._rect_label[has_mask], 2)
             cv2.rectangle(img, (int(x_min), int(y_min)), (int(x_max), int(y_max)), self._rect_label[has_mask], 1)
-
-        return img
+        if 1 in masks:
+            return img
+        else:
+            return False
 
     @staticmethod
     def _recognize_faces(img):
@@ -70,41 +75,52 @@ class Recognizer(RecognizerCore):
         self.queue_pub = queue_pub
         self._channel.queue_declare(queue=self.queue)
         self._channel_pub.queue_declare(queue=self.queue_pub)
-        logging.info('App started waiting for messages...')
+        logging.info('Приложение ожидает сообщений...')
 
     def receive_msg(self):
         self._channel.basic_consume(
             queue=self.queue,
             on_message_callback=self._publish_msg,
-            auto_ack=True
+            auto_ack=False
         )
         self._channel.start_consuming()
 
-    def _process_msg(self, data):
-        data_json = json.loads(data)
-        img = self._base64_to_img(data_json["data"]["img_base64"])
-        img_base64 = self._img_to_base64(self.define_mask(img))
-        if img_base64:
-            logging.info("Data Processed!")
-        return img_base64
+    def _process_msg(self, data_json):
+        img = self._base64_to_img(data_json["data"])
+        result_img = self.define_mask(img)
+        if type(result_img) != bool:
+            img_base64 = self._img_to_base64(result_img)
+            if img_base64:
+                logging.info("Кадр обработан.")
+            return img_base64
+        else:
+            logging.info("Кадр не удалось обработать.")
+            return False
 
     def _publish_msg(self, ch, method, properties, body):
         data = body.decode("utf-8")
-        logging.info("Data Received : {}".format(data))
-        img_base64 = self._process_msg(data)
-        msg = self._post_process_data(img_base64)
-        self._channel.basic_publish(exchange='',
-                                    routing_key="default_queue_pub",
-                                    body=str(msg))
-
-        logging.info("Data has been sent!")
+        logging.info(f"Данные получены.")
+        data_json = json.loads(data)
+        result = self._process_msg(data_json)
+        if result:
+            msg = self._post_process_data(data_json, result)
+            self._channel_pub.basic_publish(exchange='',
+                                        routing_key=self.queue_pub,
+                                        body=str(msg))
+            ch.basic_ack(delivery_tag=method.delivery_tag)
+            logging.info(f"Данные отправлены. {str(msg)}")
+        else:
+            logging.info(f"Даннные не отправлены, но сообщение обработано")
+            ch.basic_ack(delivery_tag=method.delivery_tag)
 
     @staticmethod
-    def _post_process_data(img_base64: str):
+    def _post_process_data(data_json, img_base64: str):
         msg = {
-            "data": {
-                "img_base64": img_base64
-            }
+            "link": data_json["link"],
+            "title": data_json["title"],
+            "shot_number": data_json["shot_number"],
+            "frame_duration": data_json["frame_duration"],
+            "data": img_base64
         }
         return msg
 
