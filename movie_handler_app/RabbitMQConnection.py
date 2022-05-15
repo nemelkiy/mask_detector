@@ -7,6 +7,7 @@ import pika
 import VideoHandler
 
 logging.basicConfig(level=logging.INFO)
+logging.getLogger("pika").setLevel(logging.WARNING)
 
 
 def callback(ch, method, properties, body):
@@ -23,20 +24,19 @@ def callback(ch, method, properties, body):
         return
     logging.info(f"Получена ссылка на видео: {data['link']}. Частота кадров: {data['fps']}. Начало обработки.")
     logging.info("Видео загружается на диск.")
-    video_path = VideoHandler.Downloader.download_movie(data['link'])
+    video_path, video_title = VideoHandler.Downloader.download_movie(data['link'])
     if not video_path:
         logging.error(f"Ссылка на видеоисточник некорректна!Тело неудачного запроса: {data}")
         ch.basic_ack(delivery_tag=method.delivery_tag)
         return
     logging.info("Видео успешно загружено. Запуск процедуры деления на кадры и отправки в RabbitMQ.")
-    VideoHandler.VideoCutter.cut_movie_and_send_rmq(video_path, data['fps'], data['link'])
-    logging.info(f"Все кадры отправлены в RabbitMQ. Конец обработки видео {data['link']}")
+    VideoHandler.VideoCutter.cut_movie_and_send_rmq(video_path,video_title, data['fps'], data['link'])
+    logging.info(f"Конец обработки видео {video_title}. Ссылка: {data['link']}")
     ch.basic_ack(delivery_tag=method.delivery_tag)
 
 
 class RabbitMQConnectionHandler:
     def __init__(self, rmq_parameters):
-        print(rmq_parameters)
         self.rmq_connection = pika.BlockingConnection(rmq_parameters)
         self.rmq_channel = self.rmq_connection.channel()
 
