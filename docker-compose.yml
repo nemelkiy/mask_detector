@@ -31,7 +31,7 @@ services:
       restart: "always"
       deploy:
         mode: replicated
-        replicas: 1
+        replicas: 2
       depends_on:
         - rabbitmq # старт после старта контейнера rabbitmq
       command: sh -c './wait-for.sh rabbitmq-1:5672 -- python app.py' # ожидаем

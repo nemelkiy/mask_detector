@@ -14,6 +14,7 @@ from moviepy.editor import VideoFileClip
 from pytube import YouTube
 
 logging.basicConfig(level=logging.INFO)
+logging.getLogger("pika").setLevel(logging.WARNING)
 
 
 class Downloader:
@@ -28,31 +29,34 @@ class Downloader:
         if not os.path.exists(path):
             os.makedirs(path)
         yt.download(path, filename="video_to_process.mp4")
-        return f"{path}/video_to_process.mp4"
+        return f"{path}/video_to_process.mp4", yt.title
 
 
 class VideoCutter:
     @staticmethod
-    def cut_movie_and_send_rmq(movie_path: str, fps: float, link: str):
-        rmq_parameters = pika.URLParameters('amqp://admin:Admin1234@rabbitmq-1:5672/%2F')
+    def cut_movie_and_send_rmq(movie_path: str, video_title: str, fps: float, link: str):
+        rmq_credentials = pika.PlainCredentials('admin', 'Admin1234')
+        rmq_parameters = pika.ConnectionParameters(host='rabbitmq-1', credentials=rmq_credentials, heartbeat=0, port=5672)
         rmq_handler = RabbitMQConnection.RabbitMQConnectionHandler(rmq_parameters)
         video_clip = VideoFileClip(movie_path)
         movie_title = os.path.basename(os.path.normpath(movie_path))
         shots_dir = f"./resources/frames/{movie_title}"
         if not os.path.isdir(shots_dir):
-            os.mkdir(shots_dir)
+            os.makedirs(shots_dir)
         saving_frames_per_second = min(video_clip.fps, fps)
         step = 1 / video_clip.fps if saving_frames_per_second == 0 else 1 / saving_frames_per_second
         counter = 0
         for current_duration in np.arange(0, video_clip.duration, step):
-            frame_duration_formatted = VideoCutter.format_timedelta(timedelta(seconds=current_duration)).replace(":",
-                                                                                                                 "-")
+            frame_duration_formatted = VideoCutter.format_timedelta(timedelta(seconds=current_duration)).replace(":", "-")
             counter += 1
             shot_path = os.path.join(shots_dir, f"frame{frame_duration_formatted}.jpg")
             video_clip.save_frame(shot_path, current_duration)
-            rmq_handler.publish_shot(shot_path, link, movie_title, counter, frame_duration_formatted)
+            rmq_handler.publish_shot(shot_path, link, video_title, counter, frame_duration_formatted)
+        logging.info("Процедура деления на кадры и отправки в RabbitMQ успешно завершена.")
         rmq_handler.rmq_connection.close()
+        logging.info("Начало процедуры очистки диска.")
         VideoCutter.clean(movie_path, shots_dir)
+        logging.info("Процедура очистки диска успешно завершена.")
 
     @staticmethod
     def format_timedelta(td):
