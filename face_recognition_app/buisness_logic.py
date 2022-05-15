@@ -29,8 +29,9 @@ class RecognizerCore:
         faces = self._recognize_faces(img)
         masks = []
         for annotation in faces:
+            if not annotation["bbox"]:
+                continue
             x_min, y_min, x_max, y_max = annotation["bbox"]
-
             x_min = int(np.clip(x_min, 0, x_max))
             y_min = int(np.clip(y_min, 0, y_max))
 
