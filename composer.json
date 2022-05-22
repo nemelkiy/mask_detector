@@ -1,0 +1,15 @@
+{
+    "name": "maskdetector/app",
+    "description": "Mask detector app",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "students",
+            "email": "mbd2131@mail.ru"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php-amqplib/php-amqplib": ">=3.0"
+    }
+}
