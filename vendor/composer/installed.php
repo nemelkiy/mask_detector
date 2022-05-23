@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'c7f8be3092c9f7b2aaa07fc1a0cbb9c69cd35be4',
+        'reference' => '4b2276cc3e937990ce3161df8ff637d272e7fbe3',
         'name' => 'maskdetector/app',
         'dev' => true,
     ),
@@ -16,7 +16,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'c7f8be3092c9f7b2aaa07fc1a0cbb9c69cd35be4',
+            'reference' => '4b2276cc3e937990ce3161df8ff637d272e7fbe3',
             'dev_requirement' => false,
         ),
         'paragonie/constant_time_encoding' => array(
