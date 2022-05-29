@@ -1,15 +1,15 @@
 <header>
     <div class="header-line">
-        <div class="container">
-        <div class="logo">
-            
+        <div class="logo-block">
+            <div class="logo-image" style="background-image: url(front/images/mask.png);">
+
+            </div>
         </div>
-        <nav>
-            <a href="/">Главная</a>
-            <a href="goal.php">Цель приложения</a>
-            <a href="">Загрузить фаил</a>
-            <a href="">Последние результаты</a>
-        </nav>
+        <div class="container content-center">
+            <nav>
+                <a href="/">Главная</a>
+                <a href="results.php">Посмотреть результаты</a>
+            </nav>
         </div>
     </div>
-    </header>
+</header>
