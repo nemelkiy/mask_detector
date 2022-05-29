@@ -12,7 +12,7 @@ echo " [*] Waiting for messages. To exit press CTRL+C\n";
 
 $callback = function ($msg) {
     echo $msg->body, "\n";
-  };
+};
   
 $channel->basic_consume('result_shots', '', false, true, false, false, $callback);
   
