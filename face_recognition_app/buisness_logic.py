@@ -103,12 +103,12 @@ class Recognizer(RecognizerCore):
         data_json = json.loads(data)
         result = self._process_msg(data_json)
         if result:
-            msg = self._post_process_data(data_json, result)
+            msg, msg_for_logs = self._post_process_data(data_json, result)
             self._channel_pub.basic_publish(exchange='',
                                         routing_key=self.queue_pub,
                                         body=str(msg))
             ch.basic_ack(delivery_tag=method.delivery_tag)
-            logging.info(f"Данные отправлены. {str(msg)}")
+            logging.info(f"Данные отправлены. {str(msg_for_logs)}")
         else:
             logging.info(f"Даннные не отправлены, но сообщение обработано")
             ch.basic_ack(delivery_tag=method.delivery_tag)
@@ -122,7 +122,13 @@ class Recognizer(RecognizerCore):
             "frame_duration": data_json["frame_duration"],
             "data": img_base64
         }
-        return msg
+        msg_for_logs = msg = {
+            "link": data_json["link"],
+            "title": data_json["title"],
+            "shot_number": data_json["shot_number"],
+            "frame_duration": data_json["frame_duration"]
+        }
+        return msg, msg_for_logs
 
     @staticmethod
     def _img_to_base64(img):
