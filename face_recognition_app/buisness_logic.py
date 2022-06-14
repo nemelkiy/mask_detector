@@ -122,7 +122,7 @@ class Recognizer(RecognizerCore):
             "frame_duration": data_json["frame_duration"],
             "data": img_base64
         }
-        msg_for_logs = msg = {
+        msg_for_logs = {
             "link": data_json["link"],
             "title": data_json["title"],
             "shot_number": data_json["shot_number"],

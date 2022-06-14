@@ -1,4 +1,12 @@
 $(document).ready(function(){
+
+	// $.ajax({
+	// 	url: "getRequest.php",
+	// 	success: function(data){
+	// 	  console.log(data);
+	// 	}
+	//   });  
+
     $('.owl-carousel').owlCarousel({
 		items: 4,
 		autoplay: true,
