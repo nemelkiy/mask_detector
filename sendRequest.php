@@ -19,3 +19,6 @@ echo " [x] Sending request\n";
 
 $channel->close();
 $connection->close();
+
+//https://www.youtube.com/watch?v=UgAJOBNsk9Q - Origin video
+//https://www.youtube.com/watch?v=fgCzQ0BNQDM - Cutted video

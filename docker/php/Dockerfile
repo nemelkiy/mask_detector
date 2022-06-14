@@ -71,24 +71,7 @@ RUN curl -sS https://getcomposer.org/installer | php
 COPY ./php.ini /usr/local/etc/php/
 COPY ./www.conf /usr/local/etc/php/
 
-
-# sendmail config
-RUN groupadd -g 124 postfix && \
-    groupadd -g 125 postdrop && \
-useradd -u 116 -g 124 postfix
-
-RUN apt-get update && \
-  DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
-    postfix \
-    bsd-mailx
-
-CMD echo test mail | mail logachev.iv@koleso.ru
-
-
-RUN apt-get purge -y g++ \
-    && apt-get autoremove -y \
-    && rm -r /var/lib/apt/lists/* \
-    && rm -rf /tmp/*
+RUN docker-php-ext-install sockets
 
 
 RUN usermod -u 1000 www-data
