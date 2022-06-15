@@ -1,11 +1,18 @@
 $(document).ready(function(){
 
-	// $.ajax({
-	// 	url: "getRequest.php",
-	// 	success: function(data){
-	// 	  console.log(data);
-	// 	}
-	//   });  
+	var input_form = document.querySelector('.link-form');
+	
+	$(input_form).submit(function(){
+		$.ajax({
+			type: 'POST',
+			url: '1.php',
+			dataType: 'json',
+			data: data,
+			success: function(data) {
+				
+			}
+		});
+	});
 
     $('.owl-carousel').owlCarousel({
 		items: 4,
