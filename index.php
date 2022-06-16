@@ -1,3 +1,9 @@
+<?php
+
+    session_start();
+
+?>
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -19,9 +25,11 @@
 <body>
     <?include('front/core/header.php')?>
     <div class="container content-center">
-        <form action="" class='link-form'>
+        <form action="" method="post" class='link-form'>
             <label for="video_link">Вставьте ссылку на видео:</label>
             <input type="text" name="video_link" id="video_link">
+            <label for="video_frame">Укажите количество кадров:</label>
+            <input type="text" name="video_frame" id="video_frame">
             <input type="submit" value="Отправить">
         </form>
     </div>

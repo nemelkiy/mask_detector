@@ -106,7 +106,7 @@ class Recognizer(RecognizerCore):
             msg, msg_for_logs = self._post_process_data(data_json, result)
             self._channel_pub.basic_publish(exchange='',
                                         routing_key=self.queue_pub,
-                                        body=str(msg))
+                                        body=json.dumps(msg, ensure_ascii=False))
             ch.basic_ack(delivery_tag=method.delivery_tag)
             logging.info(f"Данные отправлены. {str(msg_for_logs)}")
         else:
