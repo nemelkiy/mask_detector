@@ -62,8 +62,9 @@ services:
         image: mysql:8.0
         command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8 --collation-server=utf8_general_ci
         volumes:
-            - ./docker/mysql/data:/var/lib/mysql
+            - /var/lib/mysql
             - ./docker/mysql/config.cnf:/etc/mysql/conf.d/config.cnf
+            - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
         ports:
             - $DB_PUBLIC_PORT:3306
         environment:
