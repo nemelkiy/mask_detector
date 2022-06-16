@@ -1,31 +1,32 @@
 <?php
-session_start();
 //Параметры для баз данных
-//$dbhost = "mask_db";
-$dbhost = "127.0.0.1";
+$dbhost = "mask_db";
+//$dbhost = "127.0.0.1";
 $dbport = 7003;
 $dbuser = "root";
 $dbpass = "root";
 $dbname = "mask_base";
 
 //Соединение с БД
-//$link = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname) or die('Connect');
+$link = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname) or die('Connect');
 
 /**
  * console mode
  */
 
-$link = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname, $dbport) or die('Connect');
+//$link = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname, $dbport) or die('Connect');
 
 mysqli_query($link, "SET NAMES 'utf8';");
 mysqli_query($link, "SET CHARACTER SET 'utf8';");
 
 $rId = random_int(100, 999);
-$userId = session_id();
+$userId = $_POST['user_id'];
+
+
 require_once __DIR__ . '/vendor/autoload.php';
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
-$connection = new AMQPStreamConnection('localhost', 5672, 'admin', 'Admin1234');
+$connection = new AMQPStreamConnection('rabbitmq', 5672, 'admin', 'Admin1234');
 
 
 $channel = $connection->channel();

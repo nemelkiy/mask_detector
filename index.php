@@ -25,12 +25,12 @@
 <body>
     <?include('front/core/header.php')?>
     <div class="container content-center">
-        <form action="" method="post" class='link-form'>
+        <form enctype='multipart/form-data' method="post" class='link-form'>
             <label for="video_link">Вставьте ссылку на видео:</label>
-            <input type="text" name="video_link" id="video_link">
+            <input type="text" name="video_link" id="video_link" required >
             <label for="video_frame">Укажите количество кадров:</label>
-            <input type="text" name="video_frame" id="video_frame">
-            <input type="submit" value="Отправить">
+            <input type="text" name="video_frame" id="video_frame" required >
+            <input type="submit" value="Отправить" class="form_submit" user_id="<?php echo session_id() ?>">
         </form>
     </div>
     <footer>
@@ -58,5 +58,19 @@
             </linearGradient>
             <path id="waveline" fill="url(#0)" fill-opacity="1" d="M0,64L48,96C96,128,192,192,288,213.3C384,235,480,213,576,176C672,139,768,85,864,53.3C960,21,1056,11,1152,21.3C1248,32,1344,64,1392,80L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
     </svg>
+
+    <div class="overlay">
+        <div class="loader-container">
+            <div class="loader" id="loader-6">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="loader-text">
+                Видео загружается
+            </div>
+        </div>
+    </div>
 </body>
 </html>
