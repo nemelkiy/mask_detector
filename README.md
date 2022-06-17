@@ -28,7 +28,8 @@
 P.S. Если вам необходимо пересобрать проект, введите в терминале команду: `docker-compose up --build --force-recreate --remove-orphans --always-recreate-deps -V -d`
 
 ## Status
-На данный проект находится в стадии разработки, но основные функции уже реализованы
+На данный проект находится в стадии разработки, но основные функции уже реализованы.
+Презентация: https://docs.google.com/presentation/d/1Lb1sKIJiclqxQjUDcjl_bgMro7U8LEckfgwoHOd8ZWg/edit#slide=id.g11fdb9383f2_0_3
 
 ## Authors
 Проект подготовлен студентами МБД2131, а именно:
