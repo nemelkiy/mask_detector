@@ -11,6 +11,7 @@ body{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    position: relative;
 }
 .container{
     width: 80%;
@@ -19,6 +20,7 @@ body{
     align-items: center;
     position: relative;
     overflow: hidden;
+    flex-wrap: wrap;
 }
 .header-line{
     width: 100%;
@@ -27,6 +29,9 @@ body{
 }
 .content-center{
     justify-content: center;
+}
+.content-around{
+    justify-content: space-around;
 }
 .logo-block{
     width: 550px;
@@ -95,7 +100,7 @@ nav a{
     background-color: #9ec0db;
 }
 .footer-path{
-    position: fixed;
+    position: absolute;
     bottom: 0;
     left: 0;
     z-index: -1;
@@ -155,7 +160,70 @@ nav a{
 #loader-6 span:nth-child(4){
     animation: grow 1s ease-in-out 0.45s infinite;
 }
-  
+
+.success_checkmark{
+    display: none;
+}
+.result_btn{
+    color: #000;
+    text-decoration: none;
+    transition: color .3s ease-in;
+}
+.result_btn:hover{
+    color: #a0cea7;
+}
+
+.video_list_block{
+    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+    border: solid 2px #000;
+    color: #000;
+    text-decoration: none;
+    border-radius: 10px;
+    padding: 10px;
+    transition: box-shadow .3s ease;
+    margin: 10px;
+}
+.video_list_block:hover{
+    box-shadow: 0 0 15px 3px rgba(0,0,0,0.2);
+}
+.video_list_block p{
+    text-align: center;
+}
+.content-start{
+    justify-content: flex-start;
+}
+.face_block{
+    width: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+    margin: 30px;
+    background-color: #fff;
+    box-shadow: 0 0 15px 3px rgba(0,0,0,0.2);
+    padding: 10px;
+    border-radius: 10px;
+}
+.face_block img{
+    width: 100%;
+}
+.face_block p{
+    text-align: center;
+}
+.face_block a{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: #000;
+    transition: color .3s ease-in;
+}
+.face_block a:hover{
+    color: #a0cea7;
+}
 @keyframes grow{
     0%, 100%{
       -webkit-transform: scaleY(1);
