@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.3
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Хост: mask_db
--- Время создания: Июн 16 2022 г., 16:18
+-- Время создания: Июн 17 2022 г., 00:18
 -- Версия сервера: 8.0.29
--- Версия PHP: 8.0.15
+-- Версия PHP: 8.0.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -38,6 +38,18 @@ CREATE TABLE `result_shots` (
   `user_id` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `user_table`
+--
+
+CREATE TABLE `user_table` (
+  `id` int NOT NULL,
+  `user_id` varchar(255) NOT NULL,
+  `rId` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
 --
 -- Индексы сохранённых таблиц
 --
@@ -49,6 +61,12 @@ ALTER TABLE `result_shots`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Индексы таблицы `user_table`
+--
+ALTER TABLE `user_table`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT для сохранённых таблиц
 --
 
@@ -57,6 +75,12 @@ ALTER TABLE `result_shots`
 --
 ALTER TABLE `result_shots`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT для таблицы `user_table`
+--
+ALTER TABLE `user_table`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -20,7 +20,7 @@ $msg = new AMQPMessage('{
 }');
 $channel->basic_publish($msg, '', 'movie_requests');
 
-echo "sanded";
+echo "sended";
 
 $channel->close();
 $connection->close();

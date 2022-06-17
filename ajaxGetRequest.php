@@ -19,9 +19,18 @@ $link = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname) or die('Connect');
 mysqli_query($link, "SET NAMES 'utf8';");
 mysqli_query($link, "SET CHARACTER SET 'utf8';");
 
-$rId = random_int(100, 999);
+$blockId = $_POST['block_id'];
 $userId = $_POST['user_id'];
 
+
+$user_query = "INSERT INTO user_table (user_id, rId) VALUES (
+    \"" . $userId ."\",
+    \"".$blockId."\"
+)";
+
+$user_result = mysqli_query($link, $user_query);
+
+echo $blockId;
 
 require_once __DIR__ . '/vendor/autoload.php';
 use PhpAmqpLib\Connection\AMQPStreamConnection;
@@ -37,7 +46,7 @@ $callback = function ($msg) {
 
     if($msg->body){
 
-        global $rId;
+        global $blockId;
         global $link;
         global $userId;
 
@@ -49,7 +58,7 @@ $callback = function ($msg) {
             ".$jObj->shot_number.",
             ".$jObj->frame_duration.",
             \"".$jObj->data."\",
-            \"".$rId."\",
+            \"".$blockId."\",
             \"" . $userId ."\")";
         
         $result = mysqli_query($link, $query);
@@ -59,11 +68,14 @@ $callback = function ($msg) {
         }else{
             echo 'Query is writen';
         }
-    }
+        echo 'Queue is works';
+    } 
 };
   
 $channel->basic_consume('result_shots', '', false, true, false, false, $callback);
-  
+
 while ($channel->is_open()) {
       $channel->wait();
 }
+
+echo 'finished';

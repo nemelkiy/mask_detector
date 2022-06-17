@@ -14,7 +14,6 @@
 
     <link rel="stylesheet" href="front/css/main.css">
     <link rel="stylesheet" href="front/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="front/css/owl.theme.default.min.css">
     <link rel="stylesheet" href="front/css/media.css">
 
     <script src="front/js/jquery-3.6.0.min.js"></script>
@@ -61,13 +60,16 @@
 
     <div class="overlay">
         <div class="loader-container">
+        <div class="success_checkmark">
+            <img src="front/images/chek.png" width="75px">
+        </div>
             <div class="loader" id="loader-6">
                 <span></span>
                 <span></span>
                 <span></span>
                 <span></span>
             </div>
-            <div class="loader-text">
+            <div class="loader-text" style="text-align: center;">
                 Видео загружается
             </div>
         </div>
