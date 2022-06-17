@@ -5,11 +5,10 @@
 Ниже представлены некоторые скриншоты, которые демонстрируют работу проекта
 
 <p align="center">
-<img src="https://i.ibb.co/59Kh2B4/image-2022-06-17-19-52-34.png" alt="image-2022-06-17-19-52-34" border="0">
+<img src="https://i.ibb.co/KGKxmFh/image-2022-06-17-19-52-34.png" alt="image-2022-06-17-19-52-34" border="0">
 </p>
-
 <p align="center">
-<img src="https://i.ibb.co/ZWkZztH/image-2022-06-17-19-49-15.png" alt="image-2022-06-17-19-49-15" border="0">
+<img src="https://i.ibb.co/SR9LwWQ/image-2022-06-17-19-49-15.png" alt="image-2022-06-17-19-49-15" border="0">
 </p>
 
 ## How to run?
