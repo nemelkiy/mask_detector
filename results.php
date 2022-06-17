@@ -43,13 +43,12 @@
 
     <script src="front/js/jquery-3.6.0.min.js"></script>
     <script src="front/js/owl.carousel.min.js"></script>
-    <script src="front/js/lightcase.js" async></script>
     <script src="front/js/common.js"></script>
 
 </head>
 <body>
     <?include('front/core/header.php')?>
-    <div class="container content-around">
+    <div class="container content-center align-stretch">
         
         <?
             if(isset($user_id)){
@@ -80,12 +79,11 @@
             }else{
                 $user_query = "
                 SELECT
-                user_table.user_id,
-                user_table.rId,
-                result_shots.title
+                user_id,
+                rId
+
                 FROM user_table
-                LEFT JOIN result_shots ON user_table.user_id = result_shots.user_id
-                GROUP BY user_table.rId
+
                 ";
                 $user_result = mysqli_query($link, $user_query);
                 if(!$user_result){
@@ -93,9 +91,17 @@
                 }
                 
                 while ($user_array = mysqli_fetch_array($user_result)) {
+
+                    $uid = $user_array['user_id'];
+                    $bid = $user_array['rId'];
+                    $title_q = "SELECT title FROM result_shots WHERE user_id = \"$uid\" AND block_id = \"$bid\"";
+                    $title_res = mysqli_query($link, $title_q);
+                    $title_obj = mysqli_fetch_array($title_res);
+
+                    
                     echo '
                     <a href="result_list.php?user_id='.$user_array['user_id'].'&block_id='.$user_array['rId'].'" class="video_list_block">
-                        <p>Название видео:<br>'.$user_array['title'].'</p>
+                        <p>Название видео:<br>'.$title_obj['title'].'</p>
                         <p>Идентификатор видео: '.$user_array['rId'].'</p>
                         <p>Нажмите, чтобы просмотреть результат</p>
                     </a>

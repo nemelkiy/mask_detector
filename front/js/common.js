@@ -47,8 +47,8 @@ $(document).ready(function(){
 
 						setTimeout(function(){
 							$('.overlay').fadeOut(250);
-						}, 4000);
-					}, 25000);
+						}, 8000);
+					}, 20000);
 
 				}else{
 					console.log('Something wrong');
@@ -68,5 +68,4 @@ $(document).ready(function(){
 		dots: false
 	});
 
-	$("a[data-rel^=lightcase]").lightcase();
   });

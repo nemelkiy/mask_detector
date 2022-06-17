@@ -43,7 +43,6 @@
 
     <script src="front/js/jquery-3.6.0.min.js"></script>
     <script src="front/js/owl.carousel.min.js"></script>
-    <script src="front/js/lightcase.js" async></script>
     <script src="front/js/common.js"></script>
 
 </head>

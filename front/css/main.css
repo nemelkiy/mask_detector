@@ -172,7 +172,9 @@ nav a{
 .result_btn:hover{
     color: #a0cea7;
 }
-
+.align-stretch{
+    align-items: stretch;
+}
 .video_list_block{
     display: block;
     display: flex;
@@ -186,6 +188,7 @@ nav a{
     padding: 10px;
     transition: box-shadow .3s ease;
     margin: 10px;
+    max-width: 400px;
 }
 .video_list_block:hover{
     box-shadow: 0 0 15px 3px rgba(0,0,0,0.2);
