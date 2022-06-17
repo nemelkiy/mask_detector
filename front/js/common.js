@@ -38,8 +38,8 @@ $(document).ready(function(){
 					setTimeout(function(){
 						
 						setTimeout(function(){
-							$('.loader').fadeOut(250);
-						}, 350);
+							$('.loader').fadeOut(200);
+						}, 400);
 
 						$('.success_checkmark').fadeIn(250);
 						
@@ -48,7 +48,7 @@ $(document).ready(function(){
 						setTimeout(function(){
 							$('.overlay').fadeOut(250);
 						}, 8000);
-					}, 20000);
+					}, 25000);
 
 				}else{
 					console.log('Something wrong');
@@ -59,13 +59,28 @@ $(document).ready(function(){
 		e.preventDefault();
 	});
 
-    $('.owl-carousel').owlCarousel({
-		items: 4,
-		autoplay: true,
-		loop: true,
-		autoplayTimeout: 4000,
-		smartSpeed: 1500,
-		dots: false
+	var result_image = document.querySelectorAll('.result_image');
+
+	$(result_image).click(function(){
+		var parent = this.parentElement;
+
+		var modal = parent.querySelector('.image_overlay');
+
+		$(modal).fadeIn(300);
+
+		$(document).mouseup( function(e){ // событие клика по веб-документу
+			var div = $( ".image_modal" ); // тут указываем ID элемента
+			if ( !div.is(e.target) // если клик был не по нашему блоку
+				&& div.has(e.target).length === 0 ) { // и не по его дочерним элементам
+				$('.image_overlay').fadeOut(300); // скрываем его
+			}
+		});
 	});
+
+	$('.close_modal').click(function(){
+		$('.image_overlay').fadeOut(300);
+	});
+
+	
 
   });

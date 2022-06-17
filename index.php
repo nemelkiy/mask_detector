@@ -60,14 +60,16 @@
 
     <div class="overlay">
         <div class="loader-container">
-        <div class="success_checkmark">
-            <img src="front/images/chek.png" width="75px">
-        </div>
+            <div class="overlay_images">
+            <div class="success_checkmark">
+                <img src="front/images/chek.png" width="75px">
+            </div>
             <div class="loader" id="loader-6">
                 <span></span>
                 <span></span>
                 <span></span>
                 <span></span>
+            </div>
             </div>
             <div class="loader-text" style="text-align: center;">
                 Видео загружается

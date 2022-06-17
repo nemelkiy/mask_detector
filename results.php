@@ -90,22 +90,27 @@
                     echo 'Response error';
                 }
                 
-                while ($user_array = mysqli_fetch_array($user_result)) {
+                if(mysqli_num_rows($user_result) > 0){
+                    while ($user_array = mysqli_fetch_array($user_result)) {
 
-                    $uid = $user_array['user_id'];
-                    $bid = $user_array['rId'];
-                    $title_q = "SELECT title FROM result_shots WHERE user_id = \"$uid\" AND block_id = \"$bid\"";
-                    $title_res = mysqli_query($link, $title_q);
-                    $title_obj = mysqli_fetch_array($title_res);
-
-                    
-                    echo '
-                    <a href="result_list.php?user_id='.$user_array['user_id'].'&block_id='.$user_array['rId'].'" class="video_list_block">
-                        <p>Название видео:<br>'.$title_obj['title'].'</p>
-                        <p>Идентификатор видео: '.$user_array['rId'].'</p>
-                        <p>Нажмите, чтобы просмотреть результат</p>
-                    </a>
-                    ';
+                        $uid = $user_array['user_id'];
+                        $bid = $user_array['rId'];
+                        $title_q = "SELECT title, image FROM result_shots WHERE user_id = \"$uid\" AND block_id = \"$bid\"";
+                        $title_res = mysqli_query($link, $title_q);
+                        $title_obj = mysqli_fetch_array($title_res);
+    
+                        
+                        echo '
+                        <a href="result_list.php?user_id='.$user_array['user_id'].'&block_id='.$user_array['rId'].'" class="video_list_block">
+                            <img src="data:image/gif;base64,' . $title_obj['image'] . '" />
+                            <p>Название видео:<br>'.$title_obj['title'].'</p>
+                            <p>Идентификатор видео: '.$user_array['rId'].'</p>
+                            <p>Нажмите, чтобы просмотреть результат</p>
+                        </a>
+                        ';
+                    }
+                }else{
+                    echo 'Ещё не было обработано ниодного видео';
                 }
             }
             

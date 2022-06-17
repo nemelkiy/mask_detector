@@ -62,11 +62,22 @@
                     echo '
                         <div class="face_block">
                             <a href="' . $user_array['link'] . '" target="_blank">Ссылка на источник</a>
-                            <img src="data:image/gif;base64,' . $user_array['image'] . '" />
+                            <img class="result_image" js-data="' . $user_array['id'] . '" src="data:image/gif;base64,' . $user_array['image'] . '" />
                             <p>' . $user_array['title'] . '</p>
                             <p>Номер кадра: ' . $user_array['shot_number'] . '</p>
                             <p>Время кадра: ' . $user_array['frame_duration'] . '</p>
+
+
+                            <div class="image_overlay">
+                            <div class="image_overlay_cont">
+                                <div class="image_modal" js-data="' . $user_array['block_id'] . '">
+                                    <img src="data:image/gif;base64,' . $user_array['image'] . '" />
+                                    <a class="close_modal">Закрыть</a>
+                                </div>
+                            </div>
                         </div>
+                        </div>
+
                     ';
                 }
             }else{
@@ -101,21 +112,6 @@
             </linearGradient>
             <path id="waveline" fill="url(#0)" fill-opacity="1" d="M0,64L48,96C96,128,192,192,288,213.3C384,235,480,213,576,176C672,139,768,85,864,53.3C960,21,1056,11,1152,21.3C1248,32,1344,64,1392,80L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
     </svg>
-    <div class="overlay">
-        <div class="loader-container">
-        <div class="success_checkmark">
-            <img src="front/images/chek.png" width="75px">
-        </div>
-            <div class="loader" id="loader-6">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <div class="loader-text" style="text-align: center;">
-                Видео загружается
-            </div>
-        </div>
-    </div>
+    
 </body>
 </html>
